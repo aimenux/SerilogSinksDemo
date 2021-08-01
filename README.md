@@ -1,3 +1,5 @@
+[![.NET](https://github.com/aimenux/SerilogSinksUdpDemo/actions/workflows/ci.yml/badge.svg)](https://github.com/aimenux/SerilogSinksUdpDemo/actions/workflows/ci.yml)
+
 # SerilogSinksUdpDemo
 ```
 Using Serilog to send logs to UDP Sinks
