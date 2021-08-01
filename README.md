@@ -11,5 +11,7 @@ Using Serilog to send logs to UDP Sinks
 >
 > - 3 sinks : console, file, udp
 >
+> ![SerilogSinksUdpDemo](Screenshots/SerilogSinksUdpDemo.png)
+>
 
-**`Tools`** : vs19, net 5.0, serilog
+**`Tools`** : vs19, net 5.0, serilog, log2console
