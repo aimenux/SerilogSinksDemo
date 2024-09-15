@@ -1,4 +1,4 @@
-[![.NET](https://github.com/aimenux/SerilogSinksUdpDemo/actions/workflows/ci.yml/badge.svg)](https://github.com/aimenux/SerilogSinksUdpDemo/actions/workflows/ci.yml)
+[![.NET](https://github.com/aimenux/SerilogSinksUdpDemo/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/aimenux/SerilogSinksUdpDemo/actions/workflows/ci.yml)
 
 # SerilogSinksUdpDemo
 ```
@@ -14,4 +14,4 @@ Using Serilog to send logs to UDP sinks
 > ![SerilogSinksUdpDemo](Screenshots/SerilogSinksUdpDemo.png)
 >
 
-**`Tools`** : net 8.0, serilog, log2console
+**`Tools`** : net 8.0, serilog
