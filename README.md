@@ -9,7 +9,7 @@ Using Serilog to send logs to various sinks
 >
 > - 2 configuration ways : code config based or json config based (chosen randomly at startup)
 >
-> - 3 sinks : console, file, udp
+> - 4 sinks : console, file, udp, appinsights
 >
 > ![SerilogSinksDemo](Screenshots/SerilogSinksDemo.png)
 >
