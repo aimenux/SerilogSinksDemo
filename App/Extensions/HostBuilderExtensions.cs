@@ -11,7 +11,6 @@ public static class HostBuilderExtensions
 {
     public static IHostBuilder UseRandomConfigSerilog(this IHostBuilder builder)
     {
-        return builder.UseJsonConfigSerilog();
         var randomValue = Random.Shared.Next();
         return randomValue % 2 == 0
             ? builder.UseJsonConfigSerilog() 
@@ -20,6 +19,8 @@ public static class HostBuilderExtensions
 
     private static IHostBuilder UseJsonConfigSerilog(this IHostBuilder builder)
     {
+        Console.WriteLine("Using json configuration");
+        
         return builder.UseSerilog((hostingContext, loggerConfiguration) =>
         {
             SelfLog.Enable(Console.Error);
@@ -32,6 +33,8 @@ public static class HostBuilderExtensions
 
     private static IHostBuilder UseFluentConfigSerilog(this IHostBuilder builder)
     {
+        Console.WriteLine("Using fluent configuration");
+        
         return builder.UseSerilog((hostingContext, loggerConfiguration) =>
         {
             SelfLog.Enable(Console.Error);
@@ -41,6 +44,8 @@ public static class HostBuilderExtensions
             var addressFamily = hostingContext.Configuration.GetAddressFamily();
             var remoteAddress = hostingContext.Configuration.GetRemoteAddress();
             var outputTemplate = hostingContext.Configuration.GetOutputTemplate();
+            var serverUrl = hostingContext.Configuration.GetServerUrl();
+            var connectionString = hostingContext.Configuration.GetConnectionString();
 
             loggerConfiguration
                 .MinimumLevel.Verbose()
@@ -48,7 +53,9 @@ public static class HostBuilderExtensions
                 .Enrich.FromLogContext()
                 .WriteTo.Console(outputTemplate: outputTemplate)
                 .WriteTo.File(filePath, rollingInterval: RollingInterval.Day)
-                .WriteTo.Udp(remoteAddress, remotePort, addressFamily, new Log4jTextFormatter());
+                .WriteTo.Udp(remoteAddress, remotePort, addressFamily, new Log4jTextFormatter())
+                .WriteTo.Seq(serverUrl)
+                .WriteTo.ApplicationInsights(connectionString, TelemetryConverter.Traces);
         });
     }
 }

@@ -12,7 +12,7 @@ public static class ConfigurationExtensions
 
     public static string GetFilePath(this IConfiguration configuration)
     {
-        return configuration["Serilog:WriteTo:1:Args:path"];
+        return configuration.GetValue<string>("Serilog:WriteTo:1:Args:path");
     }
 
     public static int GetRemotePort(this IConfiguration configuration)
@@ -22,11 +22,21 @@ public static class ConfigurationExtensions
 
     public static string GetRemoteAddress(this IConfiguration configuration)
     {
-        return configuration["Serilog:WriteTo:2:Args:remoteAddress"];
+        return configuration.GetValue<string>("Serilog:WriteTo:2:Args:remoteAddress");
     }
 
     public static AddressFamily GetAddressFamily(this IConfiguration configuration)
     {
         return configuration.GetValue<AddressFamily>("Serilog:WriteTo:2:Args:family");
+    }
+    
+    public static string GetServerUrl(this IConfiguration configuration)
+    {
+        return configuration.GetValue<string>("Serilog:WriteTo:3:Args:serverUrl");
+    }
+    
+    public static string GetConnectionString(this IConfiguration configuration)
+    {
+        return configuration.GetValue<string>("Serilog:WriteTo:4:Args:connectionString");
     }
 }
