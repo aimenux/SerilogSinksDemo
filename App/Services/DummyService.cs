@@ -20,15 +20,13 @@ public class DummyService : IDummyService
 
     private void LogToAllLevels(string message)
     {
-        var scope = $"Scope-{GetType().Namespace}";
-        using (_logger.BeginScope(scope))
-        {
-            _logger.LogTrace(message);
-            _logger.LogDebug(message);
-            _logger.LogInformation(message);
-            _logger.LogWarning(message);
-            _logger.LogError(message);
-            _logger.LogCritical(message);
-        }
+        var name = $"Scope-{GetType().Namespace}";
+        using var scope = _logger.BeginScope(name);
+        _logger.LogTrace("Received message: {Message}", message);
+        _logger.LogDebug("Received message: {Message}", message);
+        _logger.LogInformation("Received message: {Message}", message);
+        _logger.LogWarning("Received message: {Message}", message);
+        _logger.LogError("Received message: {Message}", message);
+        _logger.LogCritical("Received message: {Message}", message);
     }
 }
