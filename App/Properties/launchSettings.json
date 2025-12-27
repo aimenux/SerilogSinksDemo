@@ -1,0 +1,10 @@
+﻿{
+  "profiles": {
+    "App-Dev": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

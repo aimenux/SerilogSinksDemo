@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace App.Services;
+﻿namespace App.Services;
 
 public interface IDummyService
 {

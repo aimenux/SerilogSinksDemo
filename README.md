@@ -7,7 +7,7 @@ Using Serilog to send logs to various sinks
 
 > In this repo, i m using serilog in order to enable logging to various sinks in console applications :
 >
-> - 2 configuration ways : code config based or json config based (chosen randomly at startup)
+> - 2 configuration ways : code config based or file config based (chosen randomly at startup)
 >
 > - 5 sinks : console, file, udp, seq, appinsights
 >
@@ -18,4 +18,4 @@ Using Serilog to send logs to various sinks
 > ![SerilogSinksDemo](Screenshots/SerilogSinksDemo.png)
 >
 
-**`Tools`** : net 8.0, serilog
+**`Tools`** : net 10.0, serilog

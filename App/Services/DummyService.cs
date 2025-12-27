@@ -1,13 +1,12 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace App.Services;
 
 public class DummyService : IDummyService
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<DummyService> _logger;
 
-    public DummyService(ILogger logger)
+    public DummyService(ILogger<DummyService> logger)
     {
         _logger = logger;
     }

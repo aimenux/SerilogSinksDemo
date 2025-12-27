@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
@@ -9,53 +8,57 @@ namespace App.Extensions;
 
 public static class HostBuilderExtensions
 {
-    public static IHostBuilder UseRandomConfigSerilog(this IHostBuilder builder)
+    extension(IHostBuilder builder)
     {
-        var randomValue = Random.Shared.Next();
-        return randomValue % 2 == 0
-            ? builder.UseJsonConfigSerilog() 
-            : builder.UseFluentConfigSerilog();
-    }
-
-    private static IHostBuilder UseJsonConfigSerilog(this IHostBuilder builder)
-    {
-        Console.WriteLine("Using json configuration");
-        
-        return builder.UseSerilog((hostingContext, loggerConfiguration) =>
+        public IHostBuilder ConfigureSerilog()
         {
-            SelfLog.Enable(Console.Error);
+            var randomValue = Random.Shared.Next();
+            
+            return randomValue % 2 == 0
+                ? builder.UseFileBasedConfig() 
+                : builder.UseCodeBasedConfig();
+        }
 
-            loggerConfiguration
-                .ReadFrom.Configuration(hostingContext.Configuration)
-                .Enrich.FromLogContext();
-        });
-    }
-
-    private static IHostBuilder UseFluentConfigSerilog(this IHostBuilder builder)
-    {
-        Console.WriteLine("Using fluent configuration");
-        
-        return builder.UseSerilog((hostingContext, loggerConfiguration) =>
+        private IHostBuilder UseFileBasedConfig()
         {
-            SelfLog.Enable(Console.Error);
+            Console.WriteLine("Using file based configuration");
+        
+            return builder.UseSerilog((hostingContext, loggerConfiguration) =>
+            {
+                SelfLog.Enable(Console.Error);
 
-            var filePath = hostingContext.Configuration.GetFilePath();
-            var remotePort = hostingContext.Configuration.GetRemotePort();
-            var addressFamily = hostingContext.Configuration.GetAddressFamily();
-            var remoteAddress = hostingContext.Configuration.GetRemoteAddress();
-            var outputTemplate = hostingContext.Configuration.GetOutputTemplate();
-            var serverUrl = hostingContext.Configuration.GetServerUrl();
-            var connectionString = hostingContext.Configuration.GetConnectionString();
+                loggerConfiguration
+                    .ReadFrom.Configuration(hostingContext.Configuration)
+                    .Enrich.FromLogContext();
+            });
+        }
 
-            loggerConfiguration
-                .MinimumLevel.Verbose()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Console(outputTemplate: outputTemplate)
-                .WriteTo.File(filePath, rollingInterval: RollingInterval.Day)
-                .WriteTo.Udp(remoteAddress, remotePort, addressFamily, new Log4jTextFormatter())
-                .WriteTo.Seq(serverUrl)
-                .WriteTo.ApplicationInsights(connectionString, TelemetryConverter.Traces);
-        });
+        private IHostBuilder UseCodeBasedConfig()
+        {
+            Console.WriteLine("Using code based configuration");
+        
+            return builder.UseSerilog((hostingContext, loggerConfiguration) =>
+            {
+                SelfLog.Enable(Console.Error);
+
+                var filePath = hostingContext.Configuration.GetFilePath();
+                var remotePort = hostingContext.Configuration.GetRemotePort();
+                var addressFamily = hostingContext.Configuration.GetAddressFamily();
+                var remoteAddress = hostingContext.Configuration.GetRemoteAddress();
+                var outputTemplate = hostingContext.Configuration.GetOutputTemplate();
+                var serverUrl = hostingContext.Configuration.GetServerUrl();
+                var connectionString = hostingContext.Configuration.GetConnectionString();
+
+                loggerConfiguration
+                    .MinimumLevel.Verbose()
+                    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                    .Enrich.FromLogContext()
+                    .WriteTo.Console(outputTemplate: outputTemplate)
+                    .WriteTo.File(filePath, rollingInterval: RollingInterval.Day)
+                    .WriteTo.Udp(remoteAddress, remotePort, addressFamily, new Log4jTextFormatter())
+                    .WriteTo.Seq(serverUrl)
+                    .WriteTo.ApplicationInsights(connectionString, TelemetryConverter.Traces);
+            });
+        }
     }
 }
